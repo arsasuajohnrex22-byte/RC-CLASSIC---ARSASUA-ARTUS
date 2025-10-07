@@ -1,0 +1,104 @@
+    body {
+      font-family: 'Georgia', serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f0;
+      color: #222;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 50px;
+      background: #f4f4f0;
+    }
+
+    header .logo {
+      font-family: 'Times New Roman', serif;
+      font-size: 30px;
+      font-weight: bold;
+      color: darkred;
+    }
+
+    nav a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: #222;
+      font-size: 14px;
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 50px;
+    }
+
+    .info {
+      max-width: 50%;
+    }
+
+    .info h1 {
+      font-size: 48px;
+      margin: 0 0 10px;
+    }
+
+    .info p {
+      font-size: 18px;
+      margin: 10px 0;
+    }
+
+    .info .price {
+      margin: 15px 0;
+      font-size: 20px;
+    }
+
+    .options {
+      margin: 20px 0;
+    }
+
+    .color-dot {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      margin-right: 10px;
+      border: 1px solid #333;
+      cursor: pointer;
+    }
+
+    .color-black { background: black; }
+    .color-red { background: darkred; }
+    .color-green { background: darkolivegreen; }
+
+    .btn {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 10px 25px;
+      border: 2px solid #222;
+      background: transparent;
+      text-transform: uppercase;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn:hover {
+      background: #222;
+      color: rgb(92, 89, 89);
+    }
+
+    .motorcycle img {
+      max-width: 800px;
+    }
+    
+    .swabz img {
+      max-width: 500px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      font-size: 14px;
+      color: #393939;
+    }
