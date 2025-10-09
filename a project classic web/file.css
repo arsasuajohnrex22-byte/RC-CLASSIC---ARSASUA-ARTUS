@@ -69,8 +69,7 @@
     }
 
     .color-black { background: black; }
-    .color-red { background: darkred; }
-    .color-green { background: darkolivegreen; }
+    .color-red { background: rgb(160, 132, 21); }
 
     .btn {
       display: inline-block;
