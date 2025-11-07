@@ -35,33 +35,40 @@
         // Gear Data
         const gearItems = [
             {
-                image: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
-                title: 'Vintage Leather Jacket',
-                price: '$299',
+                image: 'https://down-ph.img.susercontent.com/file/ph-11134207-7rase-marv48w4bxma7f',
+                title: 'Leather Jacket',
+                price: 'P 919',
                 description: 'Classic motorcycle jacket with armor protection',
                 rating: '★★★★★'
             },
             {
-                image: 'https://images.unsplash.com/photo-1580261450046-d0a30080dc9b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+                image: 'https://img.lazcdn.com/g/p/dd17a95f644d45f6bf3aa10d1bc79203.jpg_960x960q80.jpg_.webp',
                 title: 'Retro Motorcycle Helmet',
-                price: '$189',
+                price: 'P 2,055',
                 description: 'Vintage-style helmet with modern safety features',
                 rating: '★★★★☆'
             },
             {
-                image: 'https://images.unsplash.com/photo-1547637589-f54c34f5d7a4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+                image: 'https://i.ebayimg.com/images/g/vZwAAOSwaZdmAXti/s-l400.jpg',
                 title: 'Leather Riding Gloves',
-                price: '$79',
+                price: 'P 373',
                 description: 'Durable gloves with reinforced palms',
                 rating: '★★★★★'
             },
             {
-                image: 'https://images.unsplash.com/photo-1547637589-f54c34f5d7a4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+                image: 'https://img.lazcdn.com/g/p/66e977123ed5cd9ebc610281d077eb91.jpg_960x960q80.jpg_.webp',
                 title: 'Classic Motorcycle Boots',
-                price: '$149',
+                price: 'P 413',
                 description: 'Vintage-style boots with ankle protection',
                 rating: '★★★★☆'
-            }
+            },
+            {
+                image: 'https://down-ph.img.susercontent.com/file/sg-11134201-7rd5w-lx0qsn69v07e06',
+                title: 'Leather Saddle Bag',
+                price: 'P 1,497',
+                description: 'Vintage-style saddle bag with modern safety features',
+                rating: '★★★★☆'
+            },
         ];
 
         // Events Data
