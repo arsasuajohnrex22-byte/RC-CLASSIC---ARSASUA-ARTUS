@@ -1,3 +1,7 @@
+/* -------------------------
+   Data arrays (gallery, gear, events)
+   ------------------------- */
+
 // Gallery Data
 const galleryImages = [
     {
@@ -71,7 +75,7 @@ const gearItems = [
     },
 ];
 
-// Events Data
+// Events Data (sample)
 const events = [
     {
         date: 'June 15, 2025',
@@ -99,118 +103,95 @@ const events = [
     }
 ];
 
-// Cart Data and Functions
+/* -------------------------
+   App State
+   ------------------------- */
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 let currentImageIndex = 0;
 
-// Initialize when page loads
+/* -------------------------
+   DOMContentLoaded initialization
+   ------------------------- */
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize all components
     initializeGallery();
     initializeGear();
-    initializeEvents();
+    initializeEvents(); // horizontal drag-to-slide carousel
     initializeCart();
-    
-    // Tab functionality
+
+    // Tabs
     const tabHeaders = document.querySelectorAll('.tab-header');
     const tabContents = document.querySelectorAll('.tab-content');
-    
     tabHeaders.forEach(header => {
         header.addEventListener('click', function() {
             const tabId = this.getAttribute('data-tab');
-            
             tabHeaders.forEach(h => h.classList.remove('active'));
             tabContents.forEach(c => c.classList.remove('active'));
-            
             this.classList.add('active');
-            document.getElementById(`${tabId}-tab`).classList.add('active');
+            const el = document.getElementById(`${tabId}-tab`);
+            if (el) el.classList.add('active');
         });
     });
-    
-    // Navigation links
+
+    // Nav links
     const navLinks = document.querySelectorAll('.nav-link');
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
             const section = this.getAttribute('data-section');
-            
-            // Update active nav link
             navLinks.forEach(l => l.classList.remove('active'));
             this.classList.add('active');
-            
             navigateToSection(section);
         });
     });
-    
-    // Button functionality
-    document.getElementById('read-review-btn').addEventListener('click', function(e) {
+
+    // Buttons
+    document.getElementById('read-review-btn')?.addEventListener('click', function(e) {
         e.preventDefault();
         showNotification('Loading full review...');
-        
-        // Update active nav link
-        navLinks.forEach(l => l.classList.remove('active'));
-        document.querySelector('[data-section="reviews"]').classList.add('active');
-        
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        document.querySelector('[data-section="reviews"]')?.classList.add('active');
         navigateToSection('reviews');
     });
-    
-    document.getElementById('view-gallery-btn').addEventListener('click', function(e) {
+
+    document.getElementById('view-gallery-btn')?.addEventListener('click', function(e) {
         e.preventDefault();
-        
-        // Update active nav link
-        navLinks.forEach(l => l.classList.remove('active'));
-        document.querySelector('[data-section="gallery"]').classList.add('active');
-        
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        document.querySelector('[data-section="gallery"]')?.classList.add('active');
         navigateToSection('gallery');
         showNotification('Opening image gallery...');
     });
-    
-    document.getElementById('view-models-btn').addEventListener('click', function(e) {
+
+    document.getElementById('view-models-btn')?.addEventListener('click', function(e) {
         e.preventDefault();
-        
-        // Update active nav link
-        navLinks.forEach(l => l.classList.remove('active'));
-        document.querySelector('[data-section="models"]').classList.add('active');
-        
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        document.querySelector('[data-section="models"]')?.classList.add('active');
         navigateToSection('models');
         showNotification('Viewing 3D models');
     });
-    
-    // Reset view button
-    document.getElementById('reset-view-btn').addEventListener('click', function() {
-        const iframe = document.getElementById('sketchfab-iframe');
-        iframe.src = iframe.src;
-        showNotification('View reset to default');
-    });
-    
-    // Cart modal event listeners
-    document.getElementById('cart-close').addEventListener('click', closeCart);
-    document.getElementById('cart-overlay').addEventListener('click', closeCart);
-    document.getElementById('continue-shopping').addEventListener('click', closeCart);
-    document.getElementById('checkout-btn').addEventListener('click', function() {
-        if (cart.length === 0) {
-            showNotification('Your cart is empty!');
-            return;
-        }
-        showNotification('Proceeding to checkout...');
-        // Add your checkout logic here
-    });
-    
-    // Hide loading indicator after model loads
-    setTimeout(() => {
-        document.getElementById('loading-indicator').style.display = 'none';
-    }, 3000);
+
+    // Lightbox and other defensive listeners
+    document.getElementById('lightbox-close')?.addEventListener('click', closeLightbox);
+    document.getElementById('lightbox-prev')?.addEventListener('click', () => navigateLightbox(-1));
+    document.getElementById('lightbox-next')?.addEventListener('click', () => navigateLightbox(1));
+    document.getElementById('lightbox')?.addEventListener('click', function(e) { if (e.target === this) closeLightbox(); });
+
+    // Hide loading indicator
+    setTimeout(() => { document.getElementById('loading-indicator')?.style && (document.getElementById('loading-indicator').style.display = 'none'); }, 2500);
 });
 
-// Gallery Functions
+
+/* -------------------------
+   Gallery Functions
+   ------------------------- */
 function initializeGallery() {
     const galleryGrid = document.getElementById('gallery-grid');
-    
+    if (!galleryGrid) return;
+
     galleryImages.forEach((image, index) => {
         const galleryItem = document.createElement('div');
         galleryItem.className = 'gallery-item';
         galleryItem.setAttribute('data-index', index);
-        
+
         galleryItem.innerHTML = `
             <img src="${image.url}" alt="${image.title}" loading="lazy">
             <div class="gallery-overlay">
@@ -218,20 +199,23 @@ function initializeGallery() {
                 <p>${image.description}</p>
             </div>
         `;
-        
+
         galleryItem.addEventListener('click', () => openLightbox(index));
         galleryGrid.appendChild(galleryItem);
     });
 }
 
-// Gear Functions
+/* -------------------------
+   Gear Functions
+   ------------------------- */
 function initializeGear() {
     const gearGrid = document.getElementById('gear-grid');
-    
+    if (!gearGrid) return;
+
     gearItems.forEach((item, index) => {
         const gearCard = document.createElement('div');
         gearCard.className = 'gear-card';
-        
+
         gearCard.innerHTML = `
             <div class="gear-image">
                 <img src="${item.image}" alt="${item.title}">
@@ -244,11 +228,10 @@ function initializeGear() {
                 <button class="btn add-to-cart-btn" data-item='${JSON.stringify(item).replace(/'/g, "&#39;")}'>Add to Cart</button>
             </div>
         `;
-        
+
         gearGrid.appendChild(gearCard);
     });
-    
-    // Add event listeners to cart buttons
+
     document.querySelectorAll('.add-to-cart-btn').forEach(button => {
         button.addEventListener('click', function() {
             const itemData = JSON.parse(this.getAttribute('data-item').replace(/&#39;/g, "'"));
@@ -257,256 +240,198 @@ function initializeGear() {
     });
 }
 
-// Events Functions
+/* -------------------------
+   Events: HORIZONTAL Drag-to-Slide Carousel (Option C)
+   ------------------------- */
 function initializeEvents() {
-    const eventsTimeline = document.getElementById('events-timeline');
-    
-    events.forEach((event, index) => {
-        const eventItem = document.createElement('div');
-        eventItem.className = 'event-item';
-        
-        eventItem.innerHTML = `
-            <div class="event-content">
-                <div class="event-date">${event.date}</div>
-                <h3>${event.title}</h3>
-                <p><strong>Location:</strong> ${event.location}</p>
-                <p>${event.description}</p>
-                <button class="btn">Register Now</button>
-            </div>
+    const track = document.getElementById('events-track');
+    const carousel = document.getElementById('events-carousel');
+    if (!track || !carousel) return;
+
+    // Build cards
+    events.forEach((ev, idx) => {
+        const card = document.createElement('div');
+        card.className = 'event-card not-in-view';
+        card.setAttribute('data-index', idx);
+
+        card.innerHTML = `
+            <div class="event-date">${ev.date}</div>
+            <h3>${ev.title}</h3>
+            <p><strong>Location:</strong> ${ev.location}</p>
+            <p>${ev.description}</p>
+            <button class="btn">Register Now</button>
         `;
-        
-        eventsTimeline.appendChild(eventItem);
+        track.appendChild(card);
     });
+
+    const cards = Array.from(track.querySelectorAll('.event-card'));
+
+    // Visibility detection centre-of-carousel -> apply focus class (no snapping)
+    function updateCardVisibility() {
+        const cRect = carousel.getBoundingClientRect();
+        const centerX = cRect.left + cRect.width / 2;
+
+        cards.forEach(card => {
+            const r = card.getBoundingClientRect();
+            const cardCenter = r.left + r.width / 2;
+            const dist = Math.abs(cardCenter - centerX);
+
+            // threshold tuned for desktop & mobile widths
+            const threshold = Math.max(120, cRect.width * 0.18);
+            if (dist < threshold) {
+                card.classList.add('in-view');
+                card.classList.remove('not-in-view');
+            } else {
+                card.classList.add('not-in-view');
+                card.classList.remove('in-view');
+            }
+        });
+    }
+
+    // Call on resize and scroll
+    let rafScheduled = false;
+    function scheduleVisibilityUpdate() {
+        if (rafScheduled) return;
+        rafScheduled = true;
+        requestAnimationFrame(() => {
+            updateCardVisibility();
+            rafScheduled = false;
+        });
+    }
+
+    carousel.addEventListener('scroll', scheduleVisibilityUpdate);
+    window.addEventListener('resize', scheduleVisibilityUpdate);
+
+    // Pointer drag mechanics (horizontal)
+    let isDown = false;
+    let startX = 0;
+    let scrollStart = 0;
+
+    carousel.addEventListener('pointerdown', (e) => {
+        isDown = true;
+        carousel.classList.add('dragging');
+        startX = e.clientX;
+        scrollStart = carousel.scrollLeft;
+        carousel.setPointerCapture(e.pointerId);
+    });
+
+    carousel.addEventListener('pointermove', (e) => {
+        if (!isDown) return;
+        e.preventDefault(); // keep it smooth
+        const dx = e.clientX - startX;
+        // invert dx to match natural drag (drag left => scroll right)
+        carousel.scrollLeft = scrollStart - dx;
+        scheduleVisibilityUpdate();
+    });
+
+    function finishDrag(e) {
+        if (!isDown) return;
+        isDown = false;
+        carousel.classList.remove('dragging');
+        try { carousel.releasePointerCapture(e?.pointerId); } catch (err) {}
+        // no aggressive snapping; just update visibility
+        scheduleVisibilityUpdate();
+    }
+
+    carousel.addEventListener('pointerup', finishDrag);
+    carousel.addEventListener('pointercancel', finishDrag);
+    carousel.addEventListener('pointerleave', finishDrag);
+
+    // Make vertical wheel scroll move horizontally when hovering the carousel
+    carousel.addEventListener('wheel', function(e) {
+        // If user tries to vertically scroll inside carousel, move horizontally instead
+        if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+            e.preventDefault();
+            carousel.scrollLeft += e.deltaY;
+            scheduleVisibilityUpdate();
+        }
+    }, { passive: false });
+
+    // initial visibility mark
+    setTimeout(() => scheduleVisibilityUpdate(), 80);
 }
 
-// Cart Functions
+/* -------------------------
+   Cart functions
+   ------------------------- */
 function initializeCart() {
     updateCartCount();
 }
 
 function addToCart(item) {
-    // Find if item already exists in cart
-    const existingItem = cart.find(cartItem => cartItem.title === item.title);
-    
-    if (existingItem) {
-        existingItem.quantity += 1;
-    } else {
-        cart.push({
-            ...item,
-            quantity: 1
-        });
-    }
-    
-    // Save to localStorage
+    const existingItem = cart.find(c => c.title === item.title);
+    if (existingItem) existingItem.quantity += 1;
+    else cart.push({ ...item, quantity: 1 });
     localStorage.setItem('cart', JSON.stringify(cart));
-    
-    // Update cart count
     updateCartCount();
-    
-    // Show notification
     showNotification(`${item.title} added to cart!`);
 }
 
 function updateCartCount() {
-    const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
-    
-    // Create or update cart count element
-    let cartCountElement = document.querySelector('.cart-count');
-    if (!cartCountElement) {
-        cartCountElement = document.createElement('span');
-        cartCountElement.className = 'cart-count';
-        document.querySelector('.logo').appendChild(cartCountElement);
+    const cartCount = cart.reduce((t, i) => t + (i.quantity || 0), 0);
+    let el = document.querySelector('.cart-count');
+    if (!el) {
+        el = document.createElement('span');
+        el.className = 'cart-count';
+        document.querySelector('.logo')?.appendChild(el);
     }
-    
-    cartCountElement.textContent = cartCount > 0 ? ` (${cartCount})` : '';
+    el.textContent = cartCount > 0 ? ` (${cartCount})` : '';
 }
 
-function openCart() {
-    document.getElementById('cart-modal').classList.add('active');
-    document.getElementById('cart-overlay').classList.add('active');
-    document.body.style.overflow = 'hidden';
-    renderCartItems();
-}
-
-function closeCart() {
-    document.getElementById('cart-modal').classList.remove('active');
-    document.getElementById('cart-overlay').classList.remove('active');
-    document.body.style.overflow = 'auto';
-}
-
-function renderCartItems() {
-    const cartItemsContainer = document.getElementById('cart-items');
-    const cartTotalElement = document.getElementById('cart-total');
-    
-    if (cart.length === 0) {
-        cartItemsContainer.innerHTML = '<p>Your cart is empty</p>';
-        cartTotalElement.textContent = 'P 0';
-        return;
-    }
-    
-    let total = 0;
-    cartItemsContainer.innerHTML = '';
-    
-    cart.forEach((item, index) => {
-        const price = parseInt(item.price.replace(/[^\d]/g, '')) || 0;
-        const itemTotal = price * item.quantity;
-        total += itemTotal;
-        
-        const cartItemElement = document.createElement('div');
-        cartItemElement.className = 'cart-item';
-        cartItemElement.innerHTML = `
-            <img src="${item.image}" alt="${item.title}" class="cart-item-image">
-            <div class="cart-item-details">
-                <div class="cart-item-title">${item.title}</div>
-                <div class="cart-item-price">${item.price}</div>
-                <div class="cart-item-quantity">
-                    <button class="quantity-btn decrease-btn" data-index="${index}">-</button>
-                    <input type="number" class="quantity-input" value="${item.quantity}" min="1" data-index="${index}">
-                    <button class="quantity-btn increase-btn" data-index="${index}">+</button>
-                    <button class="remove-btn" data-index="${index}" style="margin-left: 10px; color: red; background: none; border: none; cursor: pointer;">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            </div>
-        `;
-        cartItemsContainer.appendChild(cartItemElement);
-    });
-    
-    cartTotalElement.textContent = `P ${total.toLocaleString()}`;
-    
-    // Add event listeners for quantity changes
-    document.querySelectorAll('.quantity-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const index = parseInt(this.getAttribute('data-index'));
-            if (this.classList.contains('increase-btn')) {
-                cart[index].quantity += 1;
-            } else if (this.classList.contains('decrease-btn')) {
-                if (cart[index].quantity > 1) {
-                    cart[index].quantity -= 1;
-                }
-            }
-            updateCart();
-        });
-    });
-    
-    document.querySelectorAll('.quantity-input').forEach(input => {
-        input.addEventListener('change', function() {
-            const index = parseInt(this.getAttribute('data-index'));
-            const newQuantity = parseInt(this.value) || 1;
-            cart[index].quantity = newQuantity;
-            updateCart();
-        });
-    });
-    
-    document.querySelectorAll('.remove-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const index = parseInt(this.getAttribute('data-index'));
-            cart.splice(index, 1);
-            updateCart();
-        });
-    });
-}
-
-function updateCart() {
-    localStorage.setItem('cart', JSON.stringify(cart));
-    updateCartCount();
-    renderCartItems();
-}
-
-// Lightbox Functions
+/* -------------------------
+   Lightbox functions
+   ------------------------- */
 function openLightbox(index) {
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
     const lightboxCaption = document.getElementById('lightbox-caption');
-    
+    if (!lightbox || !lightboxImg) return;
     lightboxImg.src = galleryImages[index].url;
     lightboxCaption.textContent = `${galleryImages[index].title} - ${galleryImages[index].description}`;
     lightbox.classList.add('active');
-    
     currentImageIndex = index;
-    updateLightboxNavigation();
-    
     document.body.style.overflow = 'hidden';
 }
 
 function closeLightbox() {
     const lightbox = document.getElementById('lightbox');
+    if (!lightbox) return;
     lightbox.classList.remove('active');
     document.body.style.overflow = 'auto';
 }
 
 function navigateLightbox(direction) {
     currentImageIndex += direction;
-    
-    if (currentImageIndex < 0) {
-        currentImageIndex = galleryImages.length - 1;
-    } else if (currentImageIndex >= galleryImages.length) {
-        currentImageIndex = 0;
-    }
-    
+    if (currentImageIndex < 0) currentImageIndex = galleryImages.length - 1;
+    if (currentImageIndex >= galleryImages.length) currentImageIndex = 0;
     const lightboxImg = document.getElementById('lightbox-img');
     const lightboxCaption = document.getElementById('lightbox-caption');
-    
+    if (!lightboxImg) return;
     lightboxImg.src = galleryImages[currentImageIndex].url;
-    lightboxCaption.textContent = `${galleryImages[currentImageIndex].title} - ${galleryImages[currentImageIndex].description}`;
-    
-    updateLightboxNavigation();
+    if (lightboxCaption) lightboxCaption.textContent = `${galleryImages[currentImageIndex].title} - ${galleryImages[currentImageIndex].description}`;
 }
 
-function updateLightboxNavigation() {
-    // Additional navigation updates can be added here if needed
-}
-
-// Navigation Functions
+/* -------------------------
+   Navigation & helpers
+   ------------------------- */
 function navigateToSection(section) {
-    document.querySelectorAll('.section').forEach(sec => {
-        sec.classList.remove('active');
-    });
-    
+    document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
     if (section === 'home') {
-        document.getElementById('home-section').classList.add('active');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        const home = document.getElementById('home-section');
+        if (home) { home.classList.add('active'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
     } else {
-        const sectionElement = document.getElementById(`${section}-section`);
-        if (sectionElement) {
-            sectionElement.classList.add('active');
-            sectionElement.scrollIntoView({ behavior: 'smooth' });
+        const secEl = document.getElementById(`${section}-section`);
+        if (secEl) {
+            secEl.classList.add('active');
+            secEl.scrollIntoView({ behavior: 'smooth' });
         }
     }
 }
 
 function showNotification(message) {
     const notification = document.getElementById('notification');
+    if (!notification) return;
     notification.textContent = message;
     notification.classList.add('show');
-    
-    setTimeout(() => {
-        notification.classList.remove('show');
-    }, 3000);
+    setTimeout(() => notification.classList.remove('show'), 3000);
 }
-
-// Lightbox event listeners
-document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
-document.getElementById('lightbox-prev').addEventListener('click', () => navigateLightbox(-1));
-document.getElementById('lightbox-next').addEventListener('click', () => navigateLightbox(1));
-
-// Close lightbox when clicking outside the image
-document.getElementById('lightbox').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closeLightbox();
-    }
-});
-
-// Keyboard navigation for lightbox
-document.addEventListener('keydown', function(e) {
-    const lightbox = document.getElementById('lightbox');
-    if (lightbox.classList.contains('active')) {
-        if (e.key === 'Escape') {
-            closeLightbox();
-        } else if (e.key === 'ArrowLeft') {
-            navigateLightbox(-1);
-        } else if (e.key === 'ArrowRight') {
-            navigateLightbox(1);
-        }
-    }
-});
