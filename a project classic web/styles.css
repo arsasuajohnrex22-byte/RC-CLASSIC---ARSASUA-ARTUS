@@ -266,8 +266,10 @@ nav ul li a.active::after {
 
 /* Gallery Section */
 .gallery-section {
-    background-color: var(--dark-color);
+    background: #ffffff 100%;
     color: white;
+    border-top: 10px solid var(--primary-color);
+    border-bottom: 10px solid var(--primary-color);
 }
 
 .gallery-grid {
@@ -307,7 +309,7 @@ nav ul li a.active::after {
     bottom: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    background: linear-gradient(transparent, rgba(44, 44, 44, 0.8));
     padding: 20px;
     transform: translateY(100%);
     transition: var(--transition);
@@ -721,6 +723,14 @@ nav ul li a.active::after {
 }
 
 /* Gear Section */
+
+#gear-section {
+    background: #ffffff 100%;
+    color: white;
+    border-top: 10px solid var(--primary-color);
+    border-bottom: 10px solid var(--primary-color);
+}
+
 .gear-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));

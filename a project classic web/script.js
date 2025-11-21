@@ -10,7 +10,7 @@ const galleryImages = [
         description: '1968 Triumph Bonneville - Restored to perfection'
     },
     {
-        url: 'https://images.unsplash.com/photo-1571068316343-4b40e7d6c7c7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
+        url: 'https://i1.wp.com/www.bike-urious.com/wp-content/uploads/Norton-750-Commando-Combat-Front-Right.jpg?fit=1200%2C798&ssl=1',
         title: 'Vintage Scrambler',
         description: '1972 Norton Commando - Off-road ready'
     },
@@ -30,7 +30,7 @@ const galleryImages = [
         description: '1969 Honda CB750 - The original superbike'
     },
     {
-        url: 'https://www.cuoredesmo.com/wp-content/uploads/2020/04/Ducati_scrambler_450-4.jpg=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
+        url: 'https://i.pinimg.com/736x/57/28/cb/5728cb729714afe02fd7d5b1307c0dd7--fire-legs.jpg',
         title: 'Desert Sled',
         description: '1975 Ducati Scrambler - Ready for adventure'
     }
@@ -42,7 +42,7 @@ const gearItems = [
         image: 'https://down-ph.img.susercontent.com/file/ph-11134207-7rase-marv48w4bxma7f',
         title: 'Leather Jacket',
         price: 'P 919',
-        description: 'Classic motorcycle jacket with armor protection',
+        description: 'Classic motorcycle jacket with aesthetic features',
         rating: '★★★★★'
     },
     {
@@ -73,150 +73,126 @@ const gearItems = [
         description: 'Vintage-style saddle bag with modern safety features',
         rating: '★★★★☆'
     },
+
+    //dagdag
+    {
+        image: 'https://down-ph.img.susercontent.com/file/sg-11134201-7rd5w-lx0qsn69v07e06',
+        title: 'Leather Saddle Bag',
+        price: 'P 1,497',
+        description: 'Vintage-style saddle bag with modern safety features',
+        rating: '★★★★☆'
+    },
+    {
+        image: 'https://down-ph.img.susercontent.com/file/sg-11134201-7rd5w-lx0qsn69v07e06',
+        title: 'Leather Saddle Bag',
+        price: 'P 1,497',
+        description: 'Vintage-style saddle bag with modern safety features',
+        rating: '★★★★☆'
+    },
+    {
+        image: 'https://down-ph.img.susercontent.com/file/sg-11134201-7rd5w-lx0qsn69v07e06',
+        title: 'Leather Saddle Bag',
+        price: 'P 1,497',
+        description: 'Vintage-style saddle bag with modern safety features',
+        rating: '★★★★☆'
+    },
+
 ];
 
-// Events Data (sample)
+// Events Data
 const events = [
     {
         date: 'June 15, 2025',
         title: 'Vintage Motorcycle Show',
         location: 'London, UK',
-        description: 'Annual showcase of the finest vintage motorcycles from around the world. Featuring rare models, custom builds, and restoration competitions.'
+        description: 'Annual showcase of the finest vintage motorcycles from around the world.'
     },
     {
         date: 'July 22, 2025',
         title: 'Cafe Racer Rally',
         location: 'Birmingham, UK',
-        description: 'Gathering of cafe racer enthusiasts. Rideouts, custom bike competitions, and live music.'
+        description: 'Rideouts, custom bike competitions, and live music.'
     },
     {
         date: 'August 10, 2025',
         title: 'British Classics Tour',
         location: 'Cotswolds, UK',
-        description: 'Scenic tour through the beautiful Cotswolds countryside exclusively for British vintage motorcycles.'
+        description: 'A countryside tour exclusively for British vintage motorcycles.'
     },
     {
         date: 'September 5, 2025',
         title: 'Vintage Racing Weekend',
         location: 'Donington Park, UK',
-        description: 'Historic motorcycle racing event featuring classic racing bikes from the 60s, 70s, and 80s.'
+        description: 'Historic racing event featuring classic bikes from the 60s–80s.'
     }
 ];
 
 /* -------------------------
-   App State
+   State
    ------------------------- */
-let cart = JSON.parse(localStorage.getItem('cart')) || [];
 let currentImageIndex = 0;
 
 /* -------------------------
-   DOMContentLoaded initialization
+   DOM INIT
    ------------------------- */
 document.addEventListener('DOMContentLoaded', function() {
     initializeGallery();
     initializeGear();
-    initializeEvents(); // horizontal drag-to-slide carousel
-    initializeCart();
+    initializeEvents();
+    initializeTabs();
+    initializeNav();
+    setupButtons();
 
-    // Tabs
-    const tabHeaders = document.querySelectorAll('.tab-header');
-    const tabContents = document.querySelectorAll('.tab-content');
-    tabHeaders.forEach(header => {
-        header.addEventListener('click', function() {
-            const tabId = this.getAttribute('data-tab');
-            tabHeaders.forEach(h => h.classList.remove('active'));
-            tabContents.forEach(c => c.classList.remove('active'));
-            this.classList.add('active');
-            const el = document.getElementById(`${tabId}-tab`);
-            if (el) el.classList.add('active');
-        });
-    });
-
-    // Nav links
-    const navLinks = document.querySelectorAll('.nav-link');
-    navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const section = this.getAttribute('data-section');
-            navLinks.forEach(l => l.classList.remove('active'));
-            this.classList.add('active');
-            navigateToSection(section);
-        });
-    });
-
-    // Buttons
-    document.getElementById('read-review-btn')?.addEventListener('click', function(e) {
-        e.preventDefault();
-        showNotification('Loading full review...');
-        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-        document.querySelector('[data-section="reviews"]')?.classList.add('active');
-        navigateToSection('reviews');
-    });
-
-    document.getElementById('view-gallery-btn')?.addEventListener('click', function(e) {
-        e.preventDefault();
-        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-        document.querySelector('[data-section="gallery"]')?.classList.add('active');
-        navigateToSection('gallery');
-        showNotification('Opening image gallery...');
-    });
-
-    document.getElementById('view-models-btn')?.addEventListener('click', function(e) {
-        e.preventDefault();
-        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-        document.querySelector('[data-section="models"]')?.classList.add('active');
-        navigateToSection('models');
-        showNotification('Viewing 3D models');
-    });
-
-    // Lightbox and other defensive listeners
+    // Lightbox
     document.getElementById('lightbox-close')?.addEventListener('click', closeLightbox);
     document.getElementById('lightbox-prev')?.addEventListener('click', () => navigateLightbox(-1));
     document.getElementById('lightbox-next')?.addEventListener('click', () => navigateLightbox(1));
-    document.getElementById('lightbox')?.addEventListener('click', function(e) { if (e.target === this) closeLightbox(); });
+    document.getElementById('lightbox')?.addEventListener('click', e => { if (e.target === e.currentTarget) closeLightbox(); });
 
-    // Hide loading indicator
-    setTimeout(() => { document.getElementById('loading-indicator')?.style && (document.getElementById('loading-indicator').style.display = 'none'); }, 2500);
+    // Hide loading 3D model indicator
+    setTimeout(() => { 
+        const loader = document.getElementById('loading-indicator');
+        if (loader) loader.style.display = 'none';
+    }, 2500);
 });
 
-
 /* -------------------------
-   Gallery Functions
+   Gallery
    ------------------------- */
 function initializeGallery() {
-    const galleryGrid = document.getElementById('gallery-grid');
-    if (!galleryGrid) return;
+    const grid = document.getElementById('gallery-grid');
+    if (!grid) return;
 
-    galleryImages.forEach((image, index) => {
-        const galleryItem = document.createElement('div');
-        galleryItem.className = 'gallery-item';
-        galleryItem.setAttribute('data-index', index);
+    galleryImages.forEach((img, index) => {
+        const item = document.createElement('div');
+        item.className = 'gallery-item';
+        item.setAttribute('data-index', index);
 
-        galleryItem.innerHTML = `
-            <img src="${image.url}" alt="${image.title}" loading="lazy">
+        item.innerHTML = `
+            <img src="${img.url}" alt="${img.title}" loading="lazy">
             <div class="gallery-overlay">
-                <h3>${image.title}</h3>
-                <p>${image.description}</p>
+                <h3>${img.title}</h3>
+                <p>${img.description}</p>
             </div>
         `;
 
-        galleryItem.addEventListener('click', () => openLightbox(index));
-        galleryGrid.appendChild(galleryItem);
+        item.addEventListener('click', () => openLightbox(index));
+        grid.appendChild(item);
     });
 }
 
 /* -------------------------
-   Gear Functions
+   GEAR (Add to Cart removed)
    ------------------------- */
 function initializeGear() {
-    const gearGrid = document.getElementById('gear-grid');
-    if (!gearGrid) return;
+    const grid = document.getElementById('gear-grid');
+    if (!grid) return;
 
-    gearItems.forEach((item, index) => {
-        const gearCard = document.createElement('div');
-        gearCard.className = 'gear-card';
+    gearItems.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'gear-card';
 
-        gearCard.innerHTML = `
+        card.innerHTML = `
             <div class="gear-image">
                 <img src="${item.image}" alt="${item.title}">
             </div>
@@ -225,34 +201,25 @@ function initializeGear() {
                 <div class="gear-price">${item.price}</div>
                 <div class="gear-rating">${item.rating}</div>
                 <p class="gear-description">${item.description}</p>
-                <button class="btn add-to-cart-btn" data-item='${JSON.stringify(item).replace(/'/g, "&#39;")}'>Add to Cart</button>
             </div>
         `;
 
-        gearGrid.appendChild(gearCard);
-    });
-
-    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const itemData = JSON.parse(this.getAttribute('data-item').replace(/&#39;/g, "'"));
-            addToCart(itemData);
-        });
+        grid.appendChild(card);
     });
 }
 
 /* -------------------------
-   Events: HORIZONTAL Drag-to-Slide Carousel (Option C)
+   Events – Horizontal Carousel
    ------------------------- */
 function initializeEvents() {
     const track = document.getElementById('events-track');
     const carousel = document.getElementById('events-carousel');
     if (!track || !carousel) return;
 
-    // Build cards
-    events.forEach((ev, idx) => {
+    events.forEach((ev, index) => {
         const card = document.createElement('div');
         card.className = 'event-card not-in-view';
-        card.setAttribute('data-index', idx);
+        card.setAttribute('data-index', index);
 
         card.innerHTML = `
             <div class="event-date">${ev.date}</div>
@@ -261,23 +228,22 @@ function initializeEvents() {
             <p>${ev.description}</p>
             <button class="btn">Register Now</button>
         `;
+
         track.appendChild(card);
     });
 
-    const cards = Array.from(track.querySelectorAll('.event-card'));
+    const cards = [...track.querySelectorAll('.event-card')];
 
-    // Visibility detection centre-of-carousel -> apply focus class (no snapping)
-    function updateCardVisibility() {
-        const cRect = carousel.getBoundingClientRect();
-        const centerX = cRect.left + cRect.width / 2;
+    function updateVisibility() {
+        const rect = carousel.getBoundingClientRect();
+        const center = rect.left + rect.width / 2;
 
         cards.forEach(card => {
             const r = card.getBoundingClientRect();
             const cardCenter = r.left + r.width / 2;
-            const dist = Math.abs(cardCenter - centerX);
+            const dist = Math.abs(cardCenter - center);
+            const threshold = Math.max(120, rect.width * 0.18);
 
-            // threshold tuned for desktop & mobile widths
-            const threshold = Math.max(120, cRect.width * 0.18);
             if (dist < threshold) {
                 card.classList.add('in-view');
                 card.classList.remove('not-in-view');
@@ -288,26 +254,25 @@ function initializeEvents() {
         });
     }
 
-    // Call on resize and scroll
-    let rafScheduled = false;
-    function scheduleVisibilityUpdate() {
-        if (rafScheduled) return;
-        rafScheduled = true;
-        requestAnimationFrame(() => {
-            updateCardVisibility();
-            rafScheduled = false;
-        });
+    let ticking = false;
+    function requestUpdate() {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                updateVisibility();
+                ticking = false;
+            });
+            ticking = true;
+        }
     }
 
-    carousel.addEventListener('scroll', scheduleVisibilityUpdate);
-    window.addEventListener('resize', scheduleVisibilityUpdate);
+    carousel.addEventListener('scroll', requestUpdate);
+    window.addEventListener('resize', requestUpdate);
 
-    // Pointer drag mechanics (horizontal)
     let isDown = false;
     let startX = 0;
     let scrollStart = 0;
 
-    carousel.addEventListener('pointerdown', (e) => {
+    carousel.addEventListener('pointerdown', e => {
         isDown = true;
         carousel.classList.add('dragging');
         startX = e.clientX;
@@ -315,123 +280,143 @@ function initializeEvents() {
         carousel.setPointerCapture(e.pointerId);
     });
 
-    carousel.addEventListener('pointermove', (e) => {
+    carousel.addEventListener('pointermove', e => {
         if (!isDown) return;
-        e.preventDefault(); // keep it smooth
-        const dx = e.clientX - startX;
-        // invert dx to match natural drag (drag left => scroll right)
-        carousel.scrollLeft = scrollStart - dx;
-        scheduleVisibilityUpdate();
+        e.preventDefault();
+        carousel.scrollLeft = scrollStart - (e.clientX - startX);
+        requestUpdate();
     });
 
-    function finishDrag(e) {
+    function stopDrag(e) {
         if (!isDown) return;
         isDown = false;
         carousel.classList.remove('dragging');
-        try { carousel.releasePointerCapture(e?.pointerId); } catch (err) {}
-        // no aggressive snapping; just update visibility
-        scheduleVisibilityUpdate();
+        try { carousel.releasePointerCapture(e.pointerId); } catch {}
+        requestUpdate();
     }
 
-    carousel.addEventListener('pointerup', finishDrag);
-    carousel.addEventListener('pointercancel', finishDrag);
-    carousel.addEventListener('pointerleave', finishDrag);
+    carousel.addEventListener('pointerup', stopDrag);
+    carousel.addEventListener('pointerleave', stopDrag);
+    carousel.addEventListener('pointercancel', stopDrag);
 
-    // Make vertical wheel scroll move horizontally when hovering the carousel
-    carousel.addEventListener('wheel', function(e) {
-        // If user tries to vertically scroll inside carousel, move horizontally instead
+    carousel.addEventListener('wheel', e => {
         if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
             e.preventDefault();
             carousel.scrollLeft += e.deltaY;
-            scheduleVisibilityUpdate();
+            requestUpdate();
         }
     }, { passive: false });
 
-    // initial visibility mark
-    setTimeout(() => scheduleVisibilityUpdate(), 80);
+    setTimeout(requestUpdate, 80);
 }
 
 /* -------------------------
-   Cart functions
+   Tabs
    ------------------------- */
-function initializeCart() {
-    updateCartCount();
-}
-
-function addToCart(item) {
-    const existingItem = cart.find(c => c.title === item.title);
-    if (existingItem) existingItem.quantity += 1;
-    else cart.push({ ...item, quantity: 1 });
-    localStorage.setItem('cart', JSON.stringify(cart));
-    updateCartCount();
-    showNotification(`${item.title} added to cart!`);
-}
-
-function updateCartCount() {
-    const cartCount = cart.reduce((t, i) => t + (i.quantity || 0), 0);
-    let el = document.querySelector('.cart-count');
-    if (!el) {
-        el = document.createElement('span');
-        el.className = 'cart-count';
-        document.querySelector('.logo')?.appendChild(el);
-    }
-    el.textContent = cartCount > 0 ? ` (${cartCount})` : '';
+function initializeTabs() {
+    const headers = document.querySelectorAll('.tab-header');
+    const contents = document.querySelectorAll('.tab-content');
+    headers.forEach(h => {
+        h.addEventListener('click', function() {
+            const id = this.getAttribute('data-tab');
+            headers.forEach(x => x.classList.remove('active'));
+            contents.forEach(x => x.classList.remove('active'));
+            this.classList.add('active');
+            document.getElementById(`${id}-tab`)?.classList.add('active');
+        });
+    });
 }
 
 /* -------------------------
-   Lightbox functions
+   NAV
+   ------------------------- */
+function initializeNav() {
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', e => {
+            e.preventDefault();
+            const section = link.getAttribute('data-section');
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+            navigateToSection(section);
+        });
+    });
+}
+
+function navigateToSection(sec) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    if (sec === 'home') {
+        const home = document.getElementById('home-section');
+        home?.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+        const el = document.getElementById(`${sec}-section`);
+        el?.classList.add('active');
+        el?.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+/* -------------------------
+   Buttons
+   ------------------------- */
+function setupButtons() {
+    document.getElementById('read-review-btn')?.addEventListener('click', e => {
+        e.preventDefault();
+        navigateToSection('reviews');
+        showNotification('Loading full review...');
+    });
+
+    document.getElementById('view-gallery-btn')?.addEventListener('click', e => {
+        e.preventDefault();
+        navigateToSection('gallery');
+        showNotification('Opening image gallery...');
+    });
+
+    document.getElementById('view-models-btn')?.addEventListener('click', e => {
+        e.preventDefault();
+        navigateToSection('models');
+        showNotification('Viewing 3D models...');
+    });
+}
+
+/* -------------------------
+   Lightbox
    ------------------------- */
 function openLightbox(index) {
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
-    const lightboxCaption = document.getElementById('lightbox-caption');
-    if (!lightbox || !lightboxImg) return;
-    lightboxImg.src = galleryImages[index].url;
-    lightboxCaption.textContent = `${galleryImages[index].title} - ${galleryImages[index].description}`;
-    lightbox.classList.add('active');
+    const lb = document.getElementById('lightbox');
+    const img = document.getElementById('lightbox-img');
+    const caption = document.getElementById('lightbox-caption');
+    if (!lb || !img) return;
+
     currentImageIndex = index;
+    img.src = galleryImages[index].url;
+    caption.textContent = `${galleryImages[index].title} - ${galleryImages[index].description}`;
+    lb.classList.add('active');
     document.body.style.overflow = 'hidden';
 }
 
 function closeLightbox() {
-    const lightbox = document.getElementById('lightbox');
-    if (!lightbox) return;
-    lightbox.classList.remove('active');
+    document.getElementById('lightbox')?.classList.remove('active');
     document.body.style.overflow = 'auto';
 }
 
-function navigateLightbox(direction) {
-    currentImageIndex += direction;
+function navigateLightbox(dir) {
+    currentImageIndex += dir;
     if (currentImageIndex < 0) currentImageIndex = galleryImages.length - 1;
     if (currentImageIndex >= galleryImages.length) currentImageIndex = 0;
-    const lightboxImg = document.getElementById('lightbox-img');
-    const lightboxCaption = document.getElementById('lightbox-caption');
-    if (!lightboxImg) return;
-    lightboxImg.src = galleryImages[currentImageIndex].url;
-    if (lightboxCaption) lightboxCaption.textContent = `${galleryImages[currentImageIndex].title} - ${galleryImages[currentImageIndex].description}`;
+
+    const img = document.getElementById('lightbox-img');
+    const cap = document.getElementById('lightbox-caption');
+    img.src = galleryImages[currentImageIndex].url;
+    cap.textContent = `${galleryImages[currentImageIndex].title} - ${galleryImages[currentImageIndex].description}`;
 }
 
 /* -------------------------
-   Navigation & helpers
+   Notification
    ------------------------- */
-function navigateToSection(section) {
-    document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-    if (section === 'home') {
-        const home = document.getElementById('home-section');
-        if (home) { home.classList.add('active'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
-    } else {
-        const secEl = document.getElementById(`${section}-section`);
-        if (secEl) {
-            secEl.classList.add('active');
-            secEl.scrollIntoView({ behavior: 'smooth' });
-        }
-    }
-}
-
-function showNotification(message) {
-    const notification = document.getElementById('notification');
-    if (!notification) return;
-    notification.textContent = message;
-    notification.classList.add('show');
-    setTimeout(() => notification.classList.remove('show'), 3000);
+function showNotification(msg) {
+    const notif = document.getElementById('notification');
+    if (!notif) return;
+    notif.textContent = msg;
+    notif.classList.add('show');
+    setTimeout(() => notif.classList.remove('show'), 3000);
 }
