@@ -1,32 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Cafe Racer Legacy</title>
-    <!-- Using uploaded stylesheet path -->
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- Using uploaded script path -->
-    <script defer src="script.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vintage Motorcycles | Cafe Racer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <meta name="description" content="Explore vintage motorcycles, cafe racers, and classic bikes. Reviews, galleries, 3D models, and restoration guides.">
+    <meta name="keywords" content="vintage motorcycles, cafe racer, classic bikes, motorcycle restoration, 3d models">
+    <meta property="og:title" content="Vintage Motorcycles | Cafe Racer">
+    <meta property="og:description" content="Explore the world of vintage motorcycles">
 </head>
-
 <body>
     <!-- Header -->
     <header>
         <div class="container header-content">
-            <div class="logo">
+            <div class="logo" id="home-logo">
                 <i class="fas fa-motorcycle"></i>
                 Vintage<span>Moto</span>
             </div>
             <nav>
                 <ul>
                     <li><a href="#" class="nav-link active" data-section="home">Home</a></li>
-                    <li><a href="#" class="nav-link" data-section="reviews">Reviews</a></li>
+                    <li><a href="#" class="nav-link" data-section="categories">Categories</a></li>
                     <li><a href="#" class="nav-link" data-section="gallery">Gallery</a></li>
                     <li><a href="#" class="nav-link" data-section="models">Models</a></li>
+                    <li><a href="#" class="nav-link" data-section="resources">Resources</a></li>
                     <li><a href="#" class="nav-link" data-section="gear">Gear</a></li>
                     <li><a href="#" class="nav-link" data-section="events">Events</a></li>
+                    <!-- Login button will be inserted here by JavaScript -->
                 </ul>
             </nav>
         </div>
@@ -40,12 +42,81 @@
             <h2 class="cover-subtitle">The Legend Lives On</h2>
             <p class="cover-text">Experience the timeless beauty and raw power of the classic motorcycle. Our in-depth review explores why this vintage masterpiece continues to capture hearts decades after its debut.</p>
             <div>
-                <a href="#" class="btn" id="read-review-btn">Read the Review</a>
+                <a href="#" class="btn" id="read-review-btn">View Categories</a>
                 <a href="#" class="btn btn-outline" id="view-gallery-btn">View Gallery</a>
                 <a href="#" class="btn btn-outline" id="view-models-btn">3D Models</a>
             </div>
         </div>
     </section>
+
+    <!-- Categories Section -->
+    <section class="section categories-section" id="categories-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Motorcycle Categories</h2>
+                <p>Explore different types of vintage motorcycles</p>
+            </div>
+            <div class="categories-grid" id="categories-grid">
+                <!-- Categories will be loaded by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section class="section resources-section" id="resources-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Vintage Motorcycle Resources</h2>
+                <p>Everything you need to know about classic motorcycles</p>
+            </div>
+            <div class="resources-grid" id="resources-grid">
+                <!-- Resources will be loaded by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Resource Details Modal -->
+    <div class="resource-modal" id="resource-modal">
+        <div class="resource-modal-content">
+            <div class="resource-modal-header">
+                <h2><i class="fas fa-book" id="modal-icon"></i> <span id="modal-title"></span></h2>
+                <button class="resource-modal-close" id="modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="resource-modal-body">
+                <p class="resource-modal-intro" id="modal-description"></p>
+                
+                <div class="resource-modal-details">
+                    <div class="resource-modal-features">
+                        <h3><i class="fas fa-list-check"></i> Key Features</h3>
+                        <ul id="modal-features">
+                            <!-- Features will be loaded by JavaScript -->
+                        </ul>
+                    </div>
+                    
+                    <div class="resource-modal-features">
+                        <h3><i class="fas fa-info-circle"></i> Additional Information</h3>
+                        <ul id="modal-additional-info">
+                            <!-- Additional info will be loaded by JavaScript -->
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="resource-modal-actions">
+                    <button class="btn" id="modal-download-btn">
+                        <i class="fas fa-download"></i> Download Guide
+                    </button>
+                    <button class="btn btn-outline" id="modal-print-btn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                    <button class="btn btn-outline" id="modal-share-btn">
+                        <i class="fas fa-share-alt"></i> Share
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Gallery Section -->
     <section class="section gallery-section" id="gallery-section">
@@ -80,7 +151,7 @@
     </div>
 
     <!-- Interactive 3D Model Section -->
-    <section class="section interactive-section" id="models-section">
+    <section class="section models-section interactive-section" id="models-section">
         <div class="container">
             <div class="section-title">
                 <h2>Yamaha 500 Custom Motorbike</h2>
@@ -102,7 +173,7 @@
                     </iframe>
                     
                     <div class="loading-indicator" id="loading-indicator">
-                        <i class="fas fa-spinner fa-spin"></i>
+                        <i class="fas fa-spinner"></i>
                         <p>Loading 3D Model...</p>
                     </div>
                     <div class="model-info">
@@ -191,45 +262,12 @@
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="section features" id="reviews-section">
-        <div class="container">
-            <div class="section-title">
-                <h2>Cafe Racer Legacy</h2>
-                <p>What makes this vintage motorcycle truly special</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-cogs"></i>
-                    </div>
-                    <h3>Timeless Engineering</h3>
-                    <p>The 498cc DOHC parallel twin engine delivers smooth, reliable power with that distinctive vintage character that enthusiasts love.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-history"></i>
-                    </div>
-                    <h3>Heritage Design</h3>
-                    <p>Classic lines, chrome accents, and that iconic cafe racer stance that defined an era of motorcycle customization.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-tools"></i>
-                    </div>
-                    <h3>Modern Upgrades</h3>
-                    <p>While maintaining vintage charm, this custom build features modern reliability upgrades for everyday riding.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Gear Section -->
-    <section class="section" id="gear-section">
+    <section class="section gear-section" id="gear-section">
         <div class="container">
             <div class="section-title">
-                <h2>Rider Gear & Accessories</h2>
-                <p>Essential equipment for the vintage motorcycle enthusiast</p>
+                <h2>Gear Reviews</h2>
+                <p>Expert reviews of essential equipment for vintage motorcycle enthusiasts</p>
             </div>
             <div class="gear-grid" id="gear-grid">
                 <!-- Gear items will be generated by JavaScript -->
@@ -237,22 +275,89 @@
         </div>
     </section>
 
-    <!-- Events Section (HORIZONTAL DRAG-TO-SLIDE CAROUSEL) -->
-    <section class="section" id="events-section">
+    <!-- Events Section -->
+    <section class="section events-section" id="events-section">
         <div class="container">
             <div class="section-title">
                 <h2>Upcoming Events</h2>
                 <p>Join fellow vintage motorcycle enthusiasts at these exciting events</p>
             </div>
-
-            <!-- NEW horizontal carousel (drag-to-slide) -->
-            <div class="events-horizontal" id="events-carousel" aria-label="Upcoming events carousel">
-                <div class="events-track" id="events-track">
-                    <!-- Cards will be injected by JavaScript -->
+            
+            <!-- Calendar and Time Display -->
+            <div class="events-header">
+                <div class="time-display">
+                    <div class="time-title">
+                        <i class="fas fa-clock"></i>
+                        <span>Philippine Time</span>
+                    </div>
+                    <div class="current-time" id="current-time">Loading...</div>
+                    <div class="current-date" id="current-date"></div>
+                    <div class="time-zone">Philippine Standard Time (PST)</div>
                 </div>
+                
+                <div class="mini-calendar" id="mini-calendar">
+                    <div class="calendar-header">
+                        <h3 id="calendar-month">March 2025</h3>
+                        <div class="calendar-nav">
+                            <button id="prev-month"><i class="fas fa-chevron-left"></i></button>
+                            <button id="next-month"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                    <div class="calendar-grid" id="calendar-dates">
+                        <!-- Calendar dates will be generated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="events-timeline" id="events-timeline">
+                <!-- Event items will be generated by JavaScript -->
             </div>
         </div>
     </section>
+
+    <!-- Event Details Modal -->
+    <div class="event-modal" id="event-modal">
+        <div class="event-modal-content">
+            <div class="event-modal-header">
+                <h2><i class="fas fa-calendar-alt"></i> <span id="event-modal-title"></span></h2>
+                <button class="event-modal-close" id="event-modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="event-modal-body">
+                <div class="event-details-grid">
+                    <div class="event-detail-item">
+                        <h3><i class="fas fa-calendar-day"></i> Date & Time</h3>
+                        <p id="event-modal-date"></p>
+                        <p id="event-modal-time"></p>
+                    </div>
+                    <div class="event-detail-item">
+                        <h3><i class="fas fa-map-marker-alt"></i> Location</h3>
+                        <p id="event-modal-location"></p>
+                    </div>
+                    <div class="event-detail-item">
+                        <h3><i class="fas fa-users"></i> Expected Attendance</h3>
+                        <p id="event-modal-attendance"></p>
+                    </div>
+                    <div class="event-detail-item">
+                        <h3><i class="fas fa-ticket-alt"></i> Entry</h3>
+                        <p id="event-modal-entry"></p>
+                    </div>
+                </div>
+                
+                <div class="event-highlights">
+                    <h3><i class="fas fa-star"></i> Event Highlights</h3>
+                    <ul id="event-modal-highlights">
+                        <!-- Highlights will be loaded by JavaScript -->
+                    </ul>
+                </div>
+                
+                <p class="resource-modal-intro" id="event-modal-description"></p>
+                
+                
+            </div>
+        </div>
+    </div>
 
     <!-- Review Section -->
     <section class="section review">
@@ -276,37 +381,35 @@
                     <h3>VintageMoto</h3>
                     <p>Celebrating classic motorcycles and the timeless riding experience since 1985.</p>
                     <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                        <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                        <a href="https://web.facebook.com/kalasag11ph"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/wilburjaycbarut?igsh=N3Y4bWZ3eXBjM3l5"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
                 <div class="footer-column">
                     <h3>Categories</h3>
                     <ul>
-                        <li><a href="#">British Classics</a></li>
-                        <li><a href="#">Japanese Legends</a></li>
-                        <li><a href="#">Custom Builds</a></li>
-                        <li><a href="#">Cafe Racers</a></li>
+                        <li><a href="#" class="footer-category-link" data-category="british">British Classics,</a></li>
+                        <li><a href="#" class="footer-category-link" data-category="japanese">Japanese Legends,</a></li>
+                        <li><a href="#" class="footer-category-link" data-category="custom">Custom Builds, &</a></li>
+                        <li><a href="#" class="footer-category-link" data-category="cafe">Cafe Racers</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h3>Resources</h3>
                     <ul>
-                        <li><a href="#">Buyer's Guide</a></li>
-                        <li><a href="#">Restoration Tips</a></li>
-                        <li><a href="#">Parts Directory</a></li>
-                        <li><a href="#">Event Calendar</a></li>
+                        <li><a href="#" class="footer-resource-link" data-resource="buyers-guide">Buyer's Guide,</a></li>
+                        <li><a href="#" class="footer-resource-link" data-resource="restoration">Restoration Tips,</a></li>
+                        <li><a href="#" class="footer-resource-link" data-resource="parts">Parts Directory, &</a></li>
+                        <li><a href="#" class="footer-resource-link" data-resource="calendar">Event Calendar</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h3>Contact</h3>
                     <ul>
-                        <li>arsasuajohnre22@gmail.com</li>
-                        <li>+63 993 818 7589</li>
+                        <li>Lucena City, PH</li>
                         <li>johncarlo@artus.com</li>
-                        <li>+63 991 331 5745</li>
+                        <li>johnjohnrex4@gmail.com</li>
+                        <li>+63 994 606 8350</li>
                     </ul>
                 </div>
             </div>
@@ -318,5 +421,17 @@
 
     <!-- Notification -->
     <div class="notification" id="notification">Feature activated!</div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+    
+    <!-- Firebase Configuration -->
+    <script src="firebase-config.js"></script>
+
+    <!-- JavaScript File -->
+    <script src="main.js"></script>
 </body>
 </html>
